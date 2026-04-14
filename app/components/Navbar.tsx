@@ -71,6 +71,8 @@ const Navbar = () => {
               size="icon"
               onClick={toggleMenu}
               aria-label="Toggle Menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -83,7 +85,11 @@ const Navbar = () => {
       </nav>
       {/* Mobile Navigation Dropdown */}
       {isMobileMenuOpen && (
-        <div className="bg-background absolute top-full left-0 z-40 flex w-full flex-col gap-4 border-b border-gray-200 p-5 shadow-lg md:hidden">
+        <div
+          id="mobile-menu"
+          role="menu"
+          className="bg-background absolute top-full left-0 z-40 flex w-full flex-col gap-4 border-b border-gray-200 p-5 shadow-lg md:hidden"
+        >
           <div className="flex flex-col gap-2">
             {NAV_LINKS.map((link) => (
               <a
