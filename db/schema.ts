@@ -92,8 +92,8 @@ export const matchResults = pgTable("match_results", {
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
-  rankedUniIds: text("ranked_uni_ids").array(),
-  rankedSchIds: text("ranked_sch_ids").array(),
+  rankedUniIds: uuid("ranked_uni_ids").array(),
+  rankedSchIds: uuid("ranked_sch_ids").array(),
   geminiOutput: jsonb("gemini_output"),
   createdAt: timestamp("created_at").defaultNow(),
 });
