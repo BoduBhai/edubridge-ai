@@ -1,6 +1,6 @@
 import { SignIn } from "@clerk/nextjs";
-import AuthSplitShell from "@/app/components/auth/AuthSplitShell";
-import { clerkAuthAppearance } from "@/app/components/auth/clerkAuthAppearance";
+import AuthSplitShell from "@/components/auth/AuthSplitShell";
+import { clerkAuthAppearance } from "@/components/auth/clerkAuthAppearance";
 
 export default function SignInPage() {
   return (

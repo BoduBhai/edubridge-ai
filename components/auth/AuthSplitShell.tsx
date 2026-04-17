@@ -7,7 +7,7 @@ import {
   AvatarGroup,
   AvatarImage,
 } from "@/components/ui/avatar";
-import BrandLogo from "@/app/components/BrandLogo";
+import BrandLogo from "@/components/BrandLogo";
 
 type LeftMetric = {
   value: string;
