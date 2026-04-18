@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ExternalLinkIcon } from "lucide-react";
 
-import { uniSeedData } from "@/db/data";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,13 +30,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useValidatedListFetch } from "@/hooks/use-validated-list-fetch";
+import {
+  UniversitiesApiResponseSchema,
+  type UniversitiesApiResponse,
+  type UniversityRecord,
+} from "@/lib/validations/dashboard-api";
 import { Label } from "@/components/ui/label";
 
-type UniversityRecord = (typeof uniSeedData)[number] & {
-  id?: string;
-  createdAt?: string | Date | null;
-  updatedAt?: string | Date | null;
-};
+function selectUniversities(payload: UniversitiesApiResponse) {
+  return payload.universities;
+}
 
 type AmountRangeFilter =
   | "all"
@@ -86,7 +90,18 @@ function DetailRow({
 }
 
 export function UniversitiesSection() {
-  const universities: UniversityRecord[] = uniSeedData;
+  const {
+    data: universities,
+    isLoading,
+    fetchError,
+  } = useValidatedListFetch<UniversitiesApiResponse, UniversityRecord>({
+    url: "/api/dashboard/universities",
+    schema: UniversitiesApiResponseSchema,
+    select: selectUniversities,
+    errorMessage: "Unable to load universities.",
+    cache: "force-cache",
+  });
+
   const [financialAidFilter, setFinancialAidFilter] = React.useState<
     "all" | "available" | "not-available"
   >("all");
@@ -219,6 +234,10 @@ export function UniversitiesSection() {
             {filteredUniversities.length} / {universities.length} records
           </Badge>
         </div>
+
+        {fetchError && (
+          <p className="mb-3 text-sm text-red-600">{fetchError}</p>
+        )}
 
         <div className="bg-primary/5 border-border/60 mb-4 grid gap-3 rounded-lg border p-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <div className="space-y-1">
@@ -454,7 +473,17 @@ export function UniversitiesSection() {
                 </TableCell>
               </TableRow>
             ))}
-            {filteredUniversities.length === 0 && (
+            {isLoading && (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  className="text-muted-foreground py-6 text-center"
+                >
+                  <LoadingSpinner label="Loading universities..." />
+                </TableCell>
+              </TableRow>
+            )}
+            {!isLoading && filteredUniversities.length === 0 && (
               <TableRow>
                 <TableCell
                   colSpan={6}

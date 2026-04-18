@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ExternalLinkIcon } from "lucide-react";
 
-import { schSeedData } from "@/db/data";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,13 +31,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useValidatedListFetch } from "@/hooks/use-validated-list-fetch";
+import {
+  ScholarshipsApiResponseSchema,
+  type ScholarshipRecord,
+  type ScholarshipsApiResponse,
+} from "@/lib/validations/dashboard-api";
 
-type ScholarshipRecord = (typeof schSeedData)[number] & {
-  id?: string;
-  universityId?: string | null;
-  createdAt?: string | Date | null;
-  updatedAt?: string | Date | null;
-};
+function selectScholarships(payload: ScholarshipsApiResponse) {
+  return payload.scholarships;
+}
 
 type AmountRangeFilter =
   | "all"
@@ -94,7 +97,17 @@ function DetailRow({
 }
 
 export function ScholarshipsSection() {
-  const scholarships: ScholarshipRecord[] = schSeedData;
+  const {
+    data: scholarships,
+    isLoading,
+    fetchError,
+  } = useValidatedListFetch<ScholarshipsApiResponse, ScholarshipRecord>({
+    url: "/api/dashboard/scholarships",
+    schema: ScholarshipsApiResponseSchema,
+    select: selectScholarships,
+    errorMessage: "Unable to load scholarships.",
+    cache: "force-cache",
+  });
 
   const [renewableFilter, setRenewableFilter] = React.useState<
     "all" | "renewable" | "non-renewable"
@@ -243,6 +256,10 @@ export function ScholarshipsSection() {
             {filteredScholarships.length} / {scholarships.length} records
           </Badge>
         </div>
+
+        {fetchError && (
+          <p className="mb-3 text-sm text-red-600">{fetchError}</p>
+        )}
 
         <div className="bg-primary/5 border-border/60 mb-4 grid gap-3 rounded-lg border p-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <div className="space-y-1">
@@ -510,7 +527,17 @@ export function ScholarshipsSection() {
                 </TableCell>
               </TableRow>
             ))}
-            {filteredScholarships.length === 0 && (
+            {isLoading && (
+              <TableRow>
+                <TableCell
+                  colSpan={7}
+                  className="text-muted-foreground py-6 text-center"
+                >
+                  <LoadingSpinner label="Loading scholarships..." />
+                </TableCell>
+              </TableRow>
+            )}
+            {!isLoading && filteredScholarships.length === 0 && (
               <TableRow>
                 <TableCell
                   colSpan={7}
