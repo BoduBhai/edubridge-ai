@@ -19,6 +19,7 @@ type DashboardSectionKey =
 type DashboardPageProps = {
   searchParams: Promise<{
     section?: string | string[];
+    view?: string | string[];
   }>;
 };
 
@@ -51,7 +52,7 @@ export default async function Page({ searchParams }: DashboardPageProps) {
 
   const sectionContent: Record<DashboardSectionKey, React.ReactNode> = {
     dashboard: <DashboardSection />,
-    profile: <MyProfileSection />,
+    profile: <MyProfileSection view={params.view} />,
     universities: <UniversitiesSection />,
     scholarships: <ScholarshipsSection />,
   };
