@@ -22,7 +22,7 @@ export default function ProfileCompletionStatus({
   isLoading,
 }: ProfileCompletionStatusProps) {
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="border-b text-center font-semibold uppercase">
           Profile Completion Status
@@ -33,7 +33,7 @@ export default function ProfileCompletionStatus({
           Complete your profile to unlock AI-powered features. Our AI generates
           better results when it has more information about you.
         </p>
-        <div className="bg-accent/50 border-muted w-full max-w-sm rounded-md border-2 p-4">
+        <div className="bg-accent/50 border-muted w-full rounded-md border-2 p-4">
           {isLoading ? (
             <LoadingSpinner label="Loading profile status..." />
           ) : (

@@ -1,0 +1,167 @@
+Generated Gemini output: {
+  "profileAssessment": "Your profile shows strong academic potential with a 3.4/4.0 GPA for PhD study, and financial self-sufficiency. However, a critical gap is the lack of an English proficiency test, which is mandatory for international applicants.",
+  "strengths": [
+    "Strong undergraduate GPA of 3.4/4.0 for PhD applications.",
+    "Excellent financial standing, eliminating the need for financial aid.",
+    "Flexible target year allows ample time for comprehensive application preparation."
+  ],
+  "improvements": [
+    "You must take an English proficiency test (TOEFL or IELTS) as it's a mandatory requirement for international PhD admissions.",
+    "Thoroughly research universities specifically offering PhD programs in Design, as many listed here do not explicitly support it.",
+    "Begin developing a compelling research proposal and a strong academic portfolio, crucial for competitive Design PhD applications."
+  ],
+  "universityExplanations": [
+    {
+      "id": "a5636694-2e0a-4dde-953e-baea068be60f",
+      "explanation": "University of Kansas, while affordable, does not explicitly list 'Design' among its supported majors, suggesting a potential major mismatch for your PhD. Your GPA meets their minimum, but verify program fit before applying."
+    },
+    {
+      "id": "7feecb3f-b713-4614-be73-a9f9a0b58f7d",
+      "explanation": "West Virginia University offers an accessible tuition and your GPA exceeds their minimum. However, 'Design' is not a listed major, so extensive research into specific departmental offerings is crucial for program alignment."
+    },
+    {
+      "id": "4f2b61a0-181f-4421-8962-b4606053e93a",
+      "explanation": "Kansas State University presents an affordable option with your GPA well above their minimum. The provided majors do not include 'Design', so confirm their specific PhD programs in design-related fields before proceeding."
+    },
+    {
+      "id": "031e74f2-4fc1-4499-838c-0c0e1bf80822",
+      "explanation": "Florida State University is a more selective institution where your GPA meets the minimum, and tuition is manageable. While 'Film' and 'Music' are listed, investigate if their departments offer specific PhD Design pathways suitable for your focus."
+    },
+    {
+      "id": "6f0bc702-4a5d-4c01-b53a-bb578be84265",
+      "explanation": "Brigham Young University is highly affordable with your GPA exceeding requirements. Despite this, 'Design' is not listed among their supported majors, necessitating careful review of their graduate programs for a suitable fit."
+    },
+    {
+      "id": "64691e2b-bec1-4d3b-ac66-461ab94ad70f",
+      "explanation": "The Ohio State University offers manageable tuition and your GPA is a good fit for their minimum. However, the listed majors do not explicitly include 'Design', so confirm available PhD programs in design or related creative fields."
+    },
+    {
+      "id": "060f45c3-6c4d-49cb-845a-d9a4ec22764d",
+      "explanation": "Purdue University is financially viable and your GPA is well-aligned with their minimum requirements. It is vital to research their specific graduate offerings to ensure a strong programmatic fit for a PhD in Design, as it's not a listed major."
+    },
+    {
+      "id": "b9feba25-3c7d-4114-9feb-e2f420d6c52a",
+      "explanation": "University of Wisconsin–Madison is an option where your GPA is strong, though tuition is higher, it remains within your affordability. Confirm specific PhD programs in Design, as it is not among their explicitly supported majors."
+    },
+    {
+      "id": "bb177f75-fa5e-43e0-b94a-92c11713121a",
+      "explanation": "University of Minnesota, Twin Cities offers a good academic match with your GPA, and tuition is affordable. You must verify their specific PhD programs to ensure a dedicated 'Design' major is available for your desired study."
+    },
+    {
+      "id": "66784a99-1ee9-4f10-b139-46b11f50172c",
+      "explanation": "Rutgers University provides an affordable option with your GPA meeting their criteria. Thoroughly investigate their graduate school offerings for a specific PhD in 'Design' or related interdisciplinary programs, as it's not a listed major."
+    },
+    {
+      "id": "5aa6b1e1-d1b5-4dc9-8753-0c9f2ddaf2a9",
+      "explanation": "University of Illinois Urbana-Champaign is financially feasible, and your GPA aligns well. Given 'Design' isn't explicitly listed, it is crucial to research their departments for a PhD program that directly matches your intended major."
+    },
+    {
+      "id": "3f8d5965-d5f9-4c3b-80df-a94cec445efb",
+      "explanation": "Pennsylvania State University offers an affordable tuition and your GPA meets their minimum. You should thoroughly research their specific PhD programs to confirm the availability and fit of a 'Design' specialization."
+    },
+    {
+      "id": "a7955be1-ca15-47b5-9129-dcefe4ac3517",
+      "explanation": "University of Delaware is an affordable choice, and your GPA is well within their minimum requirements. Research their graduate programs meticulously to find a 'Design' PhD that aligns with your specific academic goals."
+    },
+    {
+      "id": "c2dd662d-a4f8-4450-8950-4c0cdd7e302f",
+      "explanation": "University of California, Santa Cruz is a strong fit given 'Art' is a supported major, which may include design-focused PhD options, and your GPA is excellent. While tuition is higher, it is well within your stated affordability."
+    },
+    {
+      "id": "241ea9f9-9293-469f-84f4-d2cb059bd276",
+      "explanation": "Texas A&M University presents an affordable tuition, and your GPA meets their minimum for admission. With 'Architecture' listed as a major, investigate if they offer PhD programs with a strong design component that aligns with your focus."
+    }
+  ],
+  "scholarshipExplanations": [
+    {
+      "id": "cf012595-c1d9-4081-9aa2-06d77bb74a0f",
+      "explanation": "The Fulbright Foreign Student Program is an excellent fit, aligning with your PhD level and GPA requirements, and accepting applicants worldwide. While you don't need financial aid, this prestigious grant offers significant academic recognition."
+    },
+    {
+      "id": "ad5f202f-e791-4bcc-a0c6-a2271d2ee240",
+      "explanation": "The Knight-Hennessy Scholars program is prestigious and open to PhD candidates worldwide. Your GPA is slightly below the 3.5 minimum, so a highly compelling application demonstrating exceptional leadership and impact would be necessary to be competitive."
+    },
+    {
+      "id": "a85e7219-86e9-499f-b2c1-1673ed4a922b",
+      "explanation": "The Marshall Scholarship is for PhD study but your GPA of 3.4 is significantly below their 3.9 minimum. This scholarship primarily supports study in the UK, making it a less suitable option for your current profile and typical US university applications."
+    },
+    {
+      "id": "4e3b96ef-bbcb-4e28-a462-7c394a418d5b",
+      "explanation": "The Gates Cambridge Scholarship supports PhD students worldwide, but your 3.4 GPA falls below the competitive 3.9 minimum. This prestigious scholarship is specifically for study at the University of Cambridge."
+    },
+    {
+      "id": "f48196ed-d215-4782-beae-f10716688061",
+      "explanation": "The Paul & Daisy Soros Fellowship is for New Americans, and while your GPA is eligible, it is exclusively for Master's degree candidates. This scholarship does not align with your target PhD level."
+    },
+    {
+      "id": "ec3f3f40-d58e-415c-8447-327df89de92c",
+      "explanation": "The AAUW International Fellowship is a good option for PhD students worldwide, and your GPA of 3.4 is close to their 3.5 minimum. Focus on crafting a strong application showcasing your academic achievements and commitment to gender equity."
+    },
+    {
+      "id": "75a79c8d-5e37-4650-b2ad-0ab1ffee65d7",
+      "explanation": "The SMART Scholarship for Service accepts PhD applicants with your GPA, but it is specifically for STEM majors. Your intended major of Design would likely not be eligible unless it has a strong, explicit STEM focus."
+    },
+    {
+      "id": "a2b77e5e-9bb2-4467-9b8b-321bbbe6d3ab",
+      "explanation": "The Pat Tillman Foundation Scholarship is open to all majors with your GPA, but it is awarded only for Bachelor's degrees. This scholarship does not align with your goal of pursuing a PhD."
+    },
+    {
+      "id": "6497b0eb-94ee-4a55-bb76-444a461b8764",
+      "explanation": "The Horatio Alger Scholarship Program has a low GPA minimum but is exclusively for Bachelor's degree students. Furthermore, it targets low-income students, which does not match your financial profile."
+    },
+    {
+      "id": "d2a3589d-fae9-4ef6-956c-f13320408eff",
+      "explanation": "The Rotary Global Grant Scholarship aligns with your GPA and is for international students, but it is exclusively for Master's degrees. Therefore, this scholarship does not fit your PhD study goal."
+    }
+  ],
+  "roadmap": [
+    {
+      "month": 1,
+      "task": "Begin in-depth research to identify universities offering specific PhD Design programs and faculty whose research aligns with your interests."
+    },
+    {
+      "month": 2,
+      "task": "Register for and complete an English proficiency exam (TOEFL or IELTS) to fulfill admission requirements."
+    },
+    {
+      "month": 3,
+      "task": "Start developing a compelling and focused research proposal outlining your intended PhD project in Design."
+    },
+    {
+      "month": 4,
+      "task": "Identify and contact potential recommenders (professors, mentors) and formally request strong letters of recommendation."
+    },
+    {
+      "month": 5,
+      "task": "Develop and refine your academic portfolio, meticulously showcasing your best design work and relevant projects."
+    },
+    {
+      "month": 6,
+      "task": "Draft your Statement of Purpose, tailoring it to reflect your research interests and fit with each specific university and program."
+    },
+    {
+      "month": 7,
+      "task": "Ensure all academic transcripts and other required documents are officially translated and certified, if necessary."
+    },
+    {
+      "month": 8,
+      "task": "Begin preparing preliminary university applications, focusing on understanding essay prompts and supplemental materials."
+    },
+    {
+      "month": 9,
+      "task": "Review and finalize applications for prestigious scholarships like Fulbright (deadline Oct 15) and Knight-Hennessy (deadline Oct 8)."
+    },
+    {
+      "month": 10,
+      "task": "Submit early scholarship applications and any university applications with early deadlines (e.g., UC Santa Cruz Nov 30)."
+    },
+    {
+      "month": 11,
+      "task": "Continue refining your university applications, potentially reaching out to specific faculty for supervision discussions."
+    },
+    {
+      "month": 12,
+      "task": "Submit remaining university applications, ensuring all required documents are included before their respective deadlines (e.g., FSU, BYU, Wisconsin deadlines in Jan)."
+    }
+  ]
+}

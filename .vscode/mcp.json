@@ -1,11 +1,9 @@
 {
-  "servers": {
+  "mcpServers": {
     "Clerk": {
-      "url": "https://mcp.clerk.dev/mcp",
-      "type": "http"
+      "url": "https://mcp.clerk.dev/mcp"
     },
     "nextDevtools": {
-      "type": "stdio",
       "command": "npx",
       "args": ["-y", "next-devtools-mcp@latest"]
     },
@@ -13,6 +11,5 @@
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
     }
-  },
-  "inputs": []
+  }
 }

@@ -95,17 +95,17 @@ export function MyProfileSection({ view }: MyProfileSectionProps) {
 
   return (
     <main className="mx-auto w-full max-w-5xl space-y-4 p-4">
-      <MyProfileInfo
-        profile={profile}
-        completionPercent={completionPercent}
-        isLoading={isLoading}
-      />
       {shouldShowProfileCompletionStatus ? (
         <ProfileCompletionStatus
           progressPercent={completionPercent}
           isLoading={isLoading}
         />
       ) : null}
+      <MyProfileInfo
+        profile={profile}
+        completionPercent={completionPercent}
+        isLoading={isLoading}
+      />
     </main>
   );
 }
