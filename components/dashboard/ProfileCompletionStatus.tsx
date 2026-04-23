@@ -9,11 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Progress } from "@/components/ui/progress";
 
-export default function ProfileCompletionStatus() {
-  const progressPercent = 25;
+type ProfileCompletionStatusProps = {
+  progressPercent: number;
+  isLoading: boolean;
+};
 
+export default function ProfileCompletionStatus({
+  progressPercent,
+  isLoading,
+}: ProfileCompletionStatusProps) {
   return (
     <Card className="mx-auto w-full max-w-sm">
       <CardHeader>
@@ -27,17 +34,23 @@ export default function ProfileCompletionStatus() {
           better results when it has more information about you.
         </p>
         <div className="bg-accent/50 border-muted w-full max-w-sm rounded-md border-2 p-4">
-          <div className="flex items-center text-sm font-medium">
-            <span>Completion Progress</span>
-            <span className="ml-auto">{progressPercent}%</span>
-          </div>
-          <Progress value={progressPercent} id="progress-upload" />
+          {isLoading ? (
+            <LoadingSpinner label="Loading profile status..." />
+          ) : (
+            <>
+              <div className="flex items-center text-sm font-medium">
+                <span>Completion Progress</span>
+                <span className="ml-auto">{progressPercent}%</span>
+              </div>
+              <Progress value={progressPercent} id="progress-upload" />
+            </>
+          )}
         </div>
       </CardContent>
       <CardFooter>
         <Button variant="default" size="lg" className="w-full" asChild>
           <Link href="/dashboard?section=profile&view=completion-form">
-            Complete Profile
+            {progressPercent === 100 ? "Update Profile" : "Complete Profile"}
           </Link>
         </Button>
       </CardFooter>

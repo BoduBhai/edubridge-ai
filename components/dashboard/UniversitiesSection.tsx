@@ -37,57 +37,18 @@ import {
   type UniversityRecord,
 } from "@/lib/validations/dashboard-api";
 import { Label } from "@/components/ui/label";
-
-function selectUniversities(payload: UniversitiesApiResponse) {
-  return payload.universities;
-}
-
-type AmountRangeFilter =
-  | "all"
-  | "under-40000"
-  | "40000-60000"
-  | "60000-80000"
-  | "over-80000";
-
-type GpaRangeFilter = "all" | "under-3.2" | "3.2-3.5" | "3.5-3.8" | "3.8-4.0";
-
-function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "Not specified";
-
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return "Not specified";
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-}
-
-function formatUsd(value: number | null | undefined) {
-  if (value == null) return "Not specified";
-
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="border-border/60 grid grid-cols-[140px_1fr] gap-3 border-b py-2 text-sm last:border-b-0">
-      <p className="text-muted-foreground font-medium">{label}</p>
-      <div className="text-foreground">{value}</div>
-    </div>
-  );
-}
+import { formatDate, formatUsd } from "./list-formatters";
+import {
+  amountRangeMap,
+  DetailRow,
+  getDeadlineTime,
+  gpaRangeMap,
+  selectUniversities,
+  type AmountRangeFilter,
+  type DeadlineOrder,
+  type FinancialAidFilter,
+  type GpaRangeFilter,
+} from "./universities-section";
 
 export function UniversitiesSection() {
   const {
@@ -102,38 +63,16 @@ export function UniversitiesSection() {
     cache: "force-cache",
   });
 
-  const [financialAidFilter, setFinancialAidFilter] = React.useState<
-    "all" | "available" | "not-available"
-  >("all");
+  const [financialAidFilter, setFinancialAidFilter] =
+    React.useState<FinancialAidFilter>("all");
   const [amountRangeFilter, setAmountRangeFilter] =
     React.useState<AmountRangeFilter>("all");
   const [gpaRangeFilter, setGpaRangeFilter] =
     React.useState<GpaRangeFilter>("all");
-  const [deadlineOrder, setDeadlineOrder] = React.useState<
-    "none" | "closest" | "farthest"
-  >("none");
+  const [deadlineOrder, setDeadlineOrder] =
+    React.useState<DeadlineOrder>("none");
 
   const filteredUniversities = React.useMemo(() => {
-    const amountRangeMap: Record<
-      AmountRangeFilter,
-      { min?: number; max?: number }
-    > = {
-      all: {},
-      "under-40000": { max: 40000 },
-      "40000-60000": { min: 40000, max: 60000 },
-      "60000-80000": { min: 60000, max: 80000 },
-      "over-80000": { min: 80000 },
-    };
-
-    const gpaRangeMap: Record<GpaRangeFilter, { min?: number; max?: number }> =
-      {
-        all: {},
-        "under-3.2": { max: 3.2 },
-        "3.2-3.5": { min: 3.2, max: 3.5 },
-        "3.5-3.8": { min: 3.5, max: 3.8 },
-        "3.8-4.0": { min: 3.8, max: 4.0 },
-      };
-
     const selectedAmountRange = amountRangeMap[amountRangeFilter];
     const selectedGpaRange = gpaRangeMap[gpaRangeFilter];
 
@@ -183,15 +122,6 @@ export function UniversitiesSection() {
     if (deadlineOrder === "none") {
       return filtered;
     }
-
-    const getDeadlineTime = (university: UniversityRecord) => {
-      if (!university.applicationDeadline) {
-        return null;
-      }
-
-      const time = new Date(university.applicationDeadline).getTime();
-      return Number.isNaN(time) ? null : time;
-    };
 
     return [...filtered].sort((a, b) => {
       const timeA = getDeadlineTime(a);
@@ -245,9 +175,7 @@ export function UniversitiesSection() {
             <Select
               value={financialAidFilter}
               onValueChange={(value) =>
-                setFinancialAidFilter(
-                  value as "all" | "available" | "not-available",
-                )
+                setFinancialAidFilter(value as FinancialAidFilter)
               }
             >
               <SelectTrigger id="financial-aid-filter" className="w-full">
@@ -308,7 +236,7 @@ export function UniversitiesSection() {
             <Select
               value={deadlineOrder}
               onValueChange={(value) =>
-                setDeadlineOrder(value as "none" | "closest" | "farthest")
+                setDeadlineOrder(value as DeadlineOrder)
               }
             >
               <SelectTrigger id="deadline-order" className="w-full">

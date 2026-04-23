@@ -37,64 +37,19 @@ import {
   type ScholarshipRecord,
   type ScholarshipsApiResponse,
 } from "@/lib/validations/dashboard-api";
-
-function selectScholarships(payload: ScholarshipsApiResponse) {
-  return payload.scholarships;
-}
-
-type AmountRangeFilter =
-  | "all"
-  | "under-10000"
-  | "10000-30000"
-  | "30000-60000"
-  | "over-60000";
-
-type GpaRangeFilter = "all" | "under-3.0" | "3.0-3.4" | "3.4-3.7" | "3.7-4.0";
-
-function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "Not specified";
-
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return "Not specified";
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-}
-
-function formatUsd(value: number | null | undefined) {
-  if (value == null) return "Not specified";
-
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatIncomeRequirement(value: string) {
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="border-border/60 grid grid-cols-[160px_1fr] gap-3 border-b py-2 text-sm last:border-b-0">
-      <p className="text-muted-foreground font-medium">{label}</p>
-      <div className="text-foreground">{value}</div>
-    </div>
-  );
-}
+import { formatDate, formatUsd } from "./list-formatters";
+import {
+  amountRangeMap,
+  DetailRow,
+  formatIncomeRequirement,
+  getDeadlineTime,
+  gpaRangeMap,
+  selectScholarships,
+  type AmountRangeFilter,
+  type DeadlineOrder,
+  type GpaRangeFilter,
+  type RenewableFilter,
+} from "./scholarships-section";
 
 export function ScholarshipsSection() {
   const {
@@ -109,17 +64,15 @@ export function ScholarshipsSection() {
     cache: "force-cache",
   });
 
-  const [renewableFilter, setRenewableFilter] = React.useState<
-    "all" | "renewable" | "non-renewable"
-  >("all");
+  const [renewableFilter, setRenewableFilter] =
+    React.useState<RenewableFilter>("all");
   const [awardTypeFilter, setAwardTypeFilter] = React.useState("all");
   const [amountRangeFilter, setAmountRangeFilter] =
     React.useState<AmountRangeFilter>("all");
   const [gpaRangeFilter, setGpaRangeFilter] =
     React.useState<GpaRangeFilter>("all");
-  const [deadlineOrder, setDeadlineOrder] = React.useState<
-    "none" | "closest" | "farthest"
-  >("none");
+  const [deadlineOrder, setDeadlineOrder] =
+    React.useState<DeadlineOrder>("none");
 
   const awardTypeOptions = React.useMemo(() => {
     return [
@@ -130,26 +83,6 @@ export function ScholarshipsSection() {
   }, [scholarships]);
 
   const filteredScholarships = React.useMemo(() => {
-    const amountRangeMap: Record<
-      AmountRangeFilter,
-      { min?: number; max?: number }
-    > = {
-      all: {},
-      "under-10000": { max: 10000 },
-      "10000-30000": { min: 10000, max: 30000 },
-      "30000-60000": { min: 30000, max: 60000 },
-      "over-60000": { min: 60000 },
-    };
-
-    const gpaRangeMap: Record<GpaRangeFilter, { min?: number; max?: number }> =
-      {
-        all: {},
-        "under-3.0": { max: 3.0 },
-        "3.0-3.4": { min: 3.0, max: 3.4 },
-        "3.4-3.7": { min: 3.4, max: 3.7 },
-        "3.7-4.0": { min: 3.7, max: 4.0 },
-      };
-
     const selectedAmountRange = amountRangeMap[amountRangeFilter];
     const selectedGpaRange = gpaRangeMap[gpaRangeFilter];
 
@@ -203,15 +136,6 @@ export function ScholarshipsSection() {
     if (deadlineOrder === "none") {
       return filtered;
     }
-
-    const getDeadlineTime = (scholarship: ScholarshipRecord) => {
-      if (!scholarship.deadline) {
-        return null;
-      }
-
-      const time = new Date(scholarship.deadline).getTime();
-      return Number.isNaN(time) ? null : time;
-    };
 
     return [...filtered].sort((a, b) => {
       const timeA = getDeadlineTime(a);
@@ -267,9 +191,7 @@ export function ScholarshipsSection() {
             <Select
               value={renewableFilter}
               onValueChange={(value) =>
-                setRenewableFilter(
-                  value as "all" | "renewable" | "non-renewable",
-                )
+                setRenewableFilter(value as RenewableFilter)
               }
             >
               <SelectTrigger id="renewable-filter" className="w-full">
@@ -347,7 +269,7 @@ export function ScholarshipsSection() {
             <Select
               value={deadlineOrder}
               onValueChange={(value) =>
-                setDeadlineOrder(value as "none" | "closest" | "farthest")
+                setDeadlineOrder(value as DeadlineOrder)
               }
             >
               <SelectTrigger id="deadline-order" className="w-full">
