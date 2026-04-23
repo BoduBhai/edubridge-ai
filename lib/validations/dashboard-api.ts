@@ -57,3 +57,59 @@ export type UniversityRecord = z.infer<typeof UniversityRecordSchema>;
 export type UniversitiesApiResponse = z.infer<
   typeof UniversitiesApiResponseSchema
 >;
+
+export const DashboardMatchResultsStatusResponseSchema = z.object({
+  hasMatchResults: z.boolean(),
+  matchResults: z.lazy(() => DashboardGeminiMatchOutputSchema).nullish(),
+});
+
+export type DashboardMatchResultsStatusResponse = z.infer<
+  typeof DashboardMatchResultsStatusResponseSchema
+>;
+
+export const DashboardMatchExplanationSchema = z.object({
+  id: z.string().min(1),
+  explanation: z.string().min(1),
+});
+
+export const DashboardMatchRoadmapItemSchema = z.object({
+  month: z.number().int().min(1).max(12),
+  task: z.string().min(1),
+});
+
+export const DashboardGeminiMatchOutputSchema = z.object({
+  profileAssessment: z.string().min(1),
+  strengths: z.array(z.string().min(1)).min(1),
+  improvements: z.array(z.string().min(1)).min(1),
+  universityExplanations: z.array(DashboardMatchExplanationSchema),
+  scholarshipExplanations: z.array(DashboardMatchExplanationSchema),
+  roadmap: z.array(DashboardMatchRoadmapItemSchema).min(1),
+});
+
+export type DashboardGeminiMatchOutput = z.infer<
+  typeof DashboardGeminiMatchOutputSchema
+>;
+
+export const DashboardChatRoleSchema = z.enum(["user", "assistant"]);
+
+export const DashboardChatMessageSchema = z.object({
+  id: z.string(),
+  role: DashboardChatRoleSchema,
+  content: z.string().min(1),
+  createdAt: dateOrIsoStringSchema,
+});
+
+export const DashboardChatMessagesApiResponseSchema = z.object({
+  messages: z.array(DashboardChatMessageSchema),
+});
+
+export const DashboardChatRequestSchema = z.object({
+  message: z.string().min(1),
+});
+
+export const DashboardChatSendResponseSchema = z.object({
+  userMessage: DashboardChatMessageSchema,
+  assistantMessage: DashboardChatMessageSchema,
+});
+
+export type DashboardChatMessage = z.infer<typeof DashboardChatMessageSchema>;
