@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ExternalLinkIcon } from "lucide-react";
 
-import { schSeedData } from "@/db/data";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,82 +31,48 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-type ScholarshipRecord = (typeof schSeedData)[number] & {
-  id?: string;
-  universityId?: string | null;
-  createdAt?: string | Date | null;
-  updatedAt?: string | Date | null;
-};
-
-type AmountRangeFilter =
-  | "all"
-  | "under-10000"
-  | "10000-30000"
-  | "30000-60000"
-  | "over-60000";
-
-type GpaRangeFilter = "all" | "under-3.0" | "3.0-3.4" | "3.4-3.7" | "3.7-4.0";
-
-function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "Not specified";
-
-  const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return "Not specified";
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-}
-
-function formatUsd(value: number | null | undefined) {
-  if (value == null) return "Not specified";
-
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatIncomeRequirement(value: string) {
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="border-border/60 grid grid-cols-[160px_1fr] gap-3 border-b py-2 text-sm last:border-b-0">
-      <p className="text-muted-foreground font-medium">{label}</p>
-      <div className="text-foreground">{value}</div>
-    </div>
-  );
-}
+import { useValidatedListFetch } from "@/hooks/use-validated-list-fetch";
+import {
+  ScholarshipsApiResponseSchema,
+  type ScholarshipRecord,
+  type ScholarshipsApiResponse,
+} from "@/lib/validations/dashboard-api";
+import { formatDate, formatUsd } from "./list-formatters";
+import {
+  amountRangeMap,
+  DetailRow,
+  formatIncomeRequirement,
+  getDeadlineTime,
+  gpaRangeMap,
+  selectScholarships,
+  type AmountRangeFilter,
+  type DeadlineOrder,
+  type GpaRangeFilter,
+  type RenewableFilter,
+} from "./scholarships-section";
 
 export function ScholarshipsSection() {
-  const scholarships: ScholarshipRecord[] = schSeedData;
+  const {
+    data: scholarships,
+    isLoading,
+    fetchError,
+  } = useValidatedListFetch<ScholarshipsApiResponse, ScholarshipRecord>({
+    url: "/api/dashboard/scholarships",
+    schema: ScholarshipsApiResponseSchema,
+    select: selectScholarships,
+    errorMessage: "Unable to load scholarships.",
+    cache: "force-cache",
+  });
 
-  const [renewableFilter, setRenewableFilter] = React.useState<
-    "all" | "renewable" | "non-renewable"
-  >("all");
+  const [renewableFilter, setRenewableFilter] =
+    React.useState<RenewableFilter>("all");
   const [awardTypeFilter, setAwardTypeFilter] = React.useState("all");
   const [amountRangeFilter, setAmountRangeFilter] =
     React.useState<AmountRangeFilter>("all");
   const [gpaRangeFilter, setGpaRangeFilter] =
     React.useState<GpaRangeFilter>("all");
-  const [deadlineOrder, setDeadlineOrder] = React.useState<
-    "none" | "closest" | "farthest"
-  >("none");
+  const [deadlineOrder, setDeadlineOrder] =
+    React.useState<DeadlineOrder>("none");
 
   const awardTypeOptions = React.useMemo(() => {
     return [
@@ -117,26 +83,6 @@ export function ScholarshipsSection() {
   }, [scholarships]);
 
   const filteredScholarships = React.useMemo(() => {
-    const amountRangeMap: Record<
-      AmountRangeFilter,
-      { min?: number; max?: number }
-    > = {
-      all: {},
-      "under-10000": { max: 10000 },
-      "10000-30000": { min: 10000, max: 30000 },
-      "30000-60000": { min: 30000, max: 60000 },
-      "over-60000": { min: 60000 },
-    };
-
-    const gpaRangeMap: Record<GpaRangeFilter, { min?: number; max?: number }> =
-      {
-        all: {},
-        "under-3.0": { max: 3.0 },
-        "3.0-3.4": { min: 3.0, max: 3.4 },
-        "3.4-3.7": { min: 3.4, max: 3.7 },
-        "3.7-4.0": { min: 3.7, max: 4.0 },
-      };
-
     const selectedAmountRange = amountRangeMap[amountRangeFilter];
     const selectedGpaRange = gpaRangeMap[gpaRangeFilter];
 
@@ -191,15 +137,6 @@ export function ScholarshipsSection() {
       return filtered;
     }
 
-    const getDeadlineTime = (scholarship: ScholarshipRecord) => {
-      if (!scholarship.deadline) {
-        return null;
-      }
-
-      const time = new Date(scholarship.deadline).getTime();
-      return Number.isNaN(time) ? null : time;
-    };
-
     return [...filtered].sort((a, b) => {
       const timeA = getDeadlineTime(a);
       const timeB = getDeadlineTime(b);
@@ -244,15 +181,17 @@ export function ScholarshipsSection() {
           </Badge>
         </div>
 
+        {fetchError && (
+          <p className="mb-3 text-sm text-red-600">{fetchError}</p>
+        )}
+
         <div className="bg-primary/5 border-border/60 mb-4 grid gap-3 rounded-lg border p-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <div className="space-y-1">
             <Label htmlFor="renewable-filter">Renewability</Label>
             <Select
               value={renewableFilter}
               onValueChange={(value) =>
-                setRenewableFilter(
-                  value as "all" | "renewable" | "non-renewable",
-                )
+                setRenewableFilter(value as RenewableFilter)
               }
             >
               <SelectTrigger id="renewable-filter" className="w-full">
@@ -330,7 +269,7 @@ export function ScholarshipsSection() {
             <Select
               value={deadlineOrder}
               onValueChange={(value) =>
-                setDeadlineOrder(value as "none" | "closest" | "farthest")
+                setDeadlineOrder(value as DeadlineOrder)
               }
             >
               <SelectTrigger id="deadline-order" className="w-full">
@@ -510,7 +449,17 @@ export function ScholarshipsSection() {
                 </TableCell>
               </TableRow>
             ))}
-            {filteredScholarships.length === 0 && (
+            {isLoading && (
+              <TableRow>
+                <TableCell
+                  colSpan={7}
+                  className="text-muted-foreground py-6 text-center"
+                >
+                  <LoadingSpinner label="Loading scholarships..." />
+                </TableCell>
+              </TableRow>
+            )}
+            {!isLoading && filteredScholarships.length === 0 && (
               <TableRow>
                 <TableCell
                   colSpan={7}

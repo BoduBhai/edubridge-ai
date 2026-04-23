@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const instrumentSerif = Instrument_Serif({
@@ -32,7 +33,10 @@ export default function RootLayout({
         className={`${instrumentSerif.variable} ${plusJakartaSans.variable} antialiased`}
       >
         <ClerkProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster position="bottom-right" />
+          </TooltipProvider>
         </ClerkProvider>
       </body>
     </html>
