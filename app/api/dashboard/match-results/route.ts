@@ -615,11 +615,6 @@ export async function POST(request: Request) {
       rankedScholarships,
     );
 
-    console.log(
-      "[dashboard/match-results] Generated Gemini output:",
-      JSON.stringify(geminiOutput, null, 2),
-    );
-
     await db.insert(matchResults).values({
       userId,
       rankedUniIds: rankedUniversities.map((item) => item.id),
